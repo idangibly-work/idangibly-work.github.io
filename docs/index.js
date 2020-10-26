@@ -1,22 +1,19 @@
-function run() {
-    console.log('run');
-}
-
-
 function main() {
-    let af;
-    function documentReadyStateComplete() {
-        console.log('check');
-        if(document.readyState === 'complete') {
-            if(af) {
-                cancelAnimationFrame(af);
-            }
-            run();
-        } else {
-            documentReadyStateComplete();
-        }
-    }
-    af = requestAnimationFrame(documentReadyStateComplete);
+    console.log('main');
 }
 
-main();
+function bootstrap() {
+    const timeout = 10000;
+    let dt = 0;
+    const start = Date.now();
+    const interval = setInterval(() => {
+        dt = Date.now() - start;
+        console.log('check', dt);
+        if(document.readyState === 'complete' || (timeout < dt) ) {
+            clearInterval(interval);
+            main();
+        }
+    }, 100);
+}
+
+bootstrap();
