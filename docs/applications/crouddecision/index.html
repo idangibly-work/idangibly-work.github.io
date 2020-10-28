@@ -4,8 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>croud decision</title>
+    <script>
+       
+        function createAns() {
+            var ans = document.getElementById('ans');
+            var conut = ans.children.length;
+            var id = 'ans' + conut;
+            var div = document.createElement('div');
+  
+            var input = document.createElement('input');
+            input.setAttribute('name', id);
+            input.setAttribute('id', id);
+            var remove = document.createElement('button');
+            remove.innerText = 'Remove';
+
+            remove.addEventListener('click', function(event) {
+                div.remove();
+            });
+            
+            div.appendChild(input);
+            div.appendChild(remove);
+
+            ans.appendChild(div);
+        }
+
+        function displayError(msg) {
+     
+            var error = document.getElementById('error');
+            if(error.innerText) {
+               return;
+            }
+            error.innerText = msg;
+            var tm = setTimeout(function() {
+                console.log('clear error');
+                error.innerText = '';
+                if(tm) { clearTimeout(tm); }
+            }, 2000);
+        }
+
+        function validate() {
+           
+
+            var form = (document.getElementById('form'));
+            var text = form['text'].value;
+            var ans = document.getElementById('ans').children;
+            if(!text) {
+                displayError('no question text');
+                return false;
+            }
+            for(var a of ans) {
+                var input = a.querySelector('input');
+                if(!input) {
+                    displayError('missing answer');
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
     <h1>Croud Decision</h1>
+    <div id='error'></div>
+    <button onclick="createAns()">add answer</button>
+    <form id='form' action="/question" method="post">
+        <textarea name="text" id="text" cols="30" rows="10"></textarea>
+        <input type="submit" value="publish" onclick="return validate()">
+        <div id="ans"></div>
+    </form>
 </body>
 </html>
