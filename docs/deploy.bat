@@ -1,9 +1,2 @@
-call git add . 
-echo "======================"
-call git commit -m "deploy"
-echo "======================"
-call git push origin main
-echo "======================"
-echo "====== Done =========="
-echo "======================"
+call git add . && call git commit -m "deploy" && call git push origin main
 pause
